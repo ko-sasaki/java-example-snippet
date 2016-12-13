@@ -17,4 +17,4 @@ include 'services:webservice'
 */
 
 include 'compress-image'
-include 'spring-social-twitter'
+//include 'spring-social-twitter'

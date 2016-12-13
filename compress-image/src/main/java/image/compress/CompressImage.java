@@ -12,7 +12,8 @@ import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by ko-sasaki on 2016/12/03.
@@ -30,19 +31,16 @@ public class CompressImage {
 
     private int type;
 
-//    public CompressImage(File inFile, File outFile , double scale){
-//        this.inFile = inFile;
-//        this.outFile = outFile;
-//        this.scale = scale;
-//    }
-
     public void processing() throws IOException {
 
         BufferedImage inImage = ImageIO.read(this.inFile);
         this.type = inImage.getType();
         this.format = getFormat();
 
-        String[] formatNames = ImageIO.getReaderFormatNames();
+        List<String> formats = Arrays.asList(ImageIO.getReaderFormatNames());
+        if(!formats.contains(format)){
+            throw new UnsupportedOperationException("unsupported image format.");
+        }
 
         AreaAveragingScaleFilter scaleFilter = new AreaAveragingScaleFilter((int) (inImage.getWidth() * this.scale), (int) (inImage.getHeight() * this.scale));
         ImageProducer producer = new FilteredImageSource(inImage.getSource(),scaleFilter);
